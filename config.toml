@@ -6,7 +6,7 @@ copyright = ""
 theme = "minimo"
 
 disqusShortname = "zsailer"
-googleAnalytics = ""
+googleAnalytics = "UA-137515270-1"
 
 Paginate = 5
 preserveTaxonomyNames = true
@@ -36,7 +36,7 @@ gopher = "" # used in 404 template ( Generator: https://gopherize.me )
 prefix = ""
 holder = "Zachary Sailer"
 startYear = "2019"
-suffix = "Ph.D."
+suffix = ""
 
 [params.settings]
 # date & time format: https://golang.org/pkg/time/
@@ -73,16 +73,16 @@ page = "zrsailer" # Twitter page username
 titleSeparator = "•"
 
 [params.social]
-email = "zachsailer@gmaik.com"
+email = "zachsailer@gmail.com"
 github = "Zsailer"
-instagram = "zsailer"
+instagram = ""
 linkedin = "zach-sailer-8a1472151"
 twitter = "zrsailer"
-google_scholar = "qc6CJjYAAAAJ"
+google_scholar = "zpX45J8AAAAJ"
 youtube = ""
 
 [params.comments]
-enable = false
+enable = true
 
 # Isso: https://posativ.org/isso/
 [params.comments.isso]
@@ -94,7 +94,7 @@ dataAttrs = "" # "data-isso='https://isso.example.com' data-isso-require-author=
 enable = true
 apiEndpoint = "https://api.staticman.net/v2/entry"
 maxDepth = 2
-username = "MunifTanjim"
+username = "zsailer"
 repository = "minimo"
 branch = "master"
 
@@ -104,7 +104,7 @@ enable = false
 issueTerm = "pathname" # pathname / url / title
 
 [params.comments.utterances.github]
-username = "MunifTanjim"
+username = "zsailer"
 repository = "minimo"
 
 [params.search]

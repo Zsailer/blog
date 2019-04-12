@@ -1,0 +1,13 @@
+id = "zsailer"
+
+[email]
+username = "zachsailer"
+host = "gmail.com"
+
+[name]
+display = "Zach Sailer"
+
+[social]
+email = ""
+twitter = "zrsailer"
+github = "zsailer"
