@@ -7,7 +7,7 @@ images:
 - /other/first-post/xkcd979.png
 ---
 
-Finally starting a blog. _Thank you to [Letitia Portella](https://leportella.com/) and [Saul Shanabrook](https://www.saulshanabrook.com/) for pushing to make it happened._
+Finally starting a blog. _Thank you to [Leticia Portella](https://leportella.com/) and [Saul Shanabrook](https://www.saulshanabrook.com/) for pushing to make it happened._
 
 I'm planning to use this site to share three major types of content. 
 

@@ -14,7 +14,7 @@ A few weeks ago, I had the opportunity to join many members of the Project Jupyt
 
 This was an incredible experience. 
 
-I counted ~20 core contributors representing 9 different countries in the room. Both new and long-time contributors were present. Fernando Perez, the creator of IPython (in 2001) and co-creator of Project Jupyter, was there, as well as Letitia Portella, a new team member that joined through [Outreachy](https://www.outreachy.org/) four months earlier. The best part--it did not matter what your background was; everyone had an voice. 
+I counted ~20 core contributors representing 9 different countries in the room. Both new and long-time contributors were present. Fernando Perez, the creator of IPython (in 2001) and co-creator of Project Jupyter, was there, as well as Leticia Portella, a new team member that joined through [Outreachy](https://www.outreachy.org/) four months earlier. The best part--it did not matter what your background was; everyone had an voice. 
 
 I won't much time to talking about the specific things we discussed during the week (you can find more detail in the links at the bottom). I will just say--I was amazed by how many times phrases like "empower everyone" and "for the greater good" were mentioned thoughout the week. 
 
