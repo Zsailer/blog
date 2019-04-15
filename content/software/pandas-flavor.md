@@ -1,73 +1,32 @@
 ---
 title: "Writing your own flavor of Pandas"
-date: 2019-04-05
+date: 2019-04-14
 authors: ["zsailer"]
-draft: true
 tags: ["pandas", "software"]
 ---
 
-## The case for Pandas extensions
+Pandas is Python's DataFrame library. There are many reasons why should be using DataFrame's in your data science workflow, but I'll have to leave that for another post. Here, I'll show you how to tailor Pandas to your business, research, or personal workflow using Pandas' extension API.
+
+In versions 0.24.x, Pandas introduced a new API for extending Pandas. This API handled the boilerplate code for registering custom **accessors** onto Pandas objects. (an _accessor_ is an object attached to a DataFrame/Series that can access and "mutate" that DataFrame/Series). Specifically, it included two Python decorators: 
+
+1. `register_dataframe_accessor()`
+2. `register_series_accessor()`.
+
+[Pandas-flavor](https://github.com/Zsailer/pandas_flavor) is a library that backports this API to earlier versions of Pandas. I recommend using Pandas-flavor when writing custom accessors, since many users probably haven't upgraded to Pandas 0.24.x yet. (Full disclosure---I wrote Pandas-flavor)
+
+## Custom Accessor
+
+Here's how you write an accessor: 
+
+1. Give your accessor a name. Pass this name as an argument to the `register_dataframe_accessor`.
+2. Create an accessor class, a Python object. The name of the class doesn't matter. It must have an `__init__()` method and take the Pandas DataFrame/Series as an argument. 
+3. Store the DataFrame/Series as a hidden attribute on the Accessor (prefix the attribute with an underscore); I suggest `self._df`.
+4. Add your methods and attributes as members of the Accessor class. You can access and mutate the dataframe by affecting the `self._df` attribute.
+
+As an example, here's a simple "finance" accessor that has a "get_losses" method:
 ```python
->>> import pandas
->>> import myextension
->>> df = pandas.read_csv('my-data.csv')
->>> df.myextension.say_hello()
-"Hello, world!"
-```
-Pandas is Python's DataFrame library. There are many reasons why should be using DataFrame's in your data science workflow, but I'll have to leave that for another article. In this article, I'll show you how to tailor Pandas to your business, research, or personal workflow using Pandas' extension API.
-
-Pandas is a powerful library. You can read data from various file types and manipulate and plot that using a highly memory-efficient data structure and API. It has become a foundational library in various scientific Python stacks and the _de facto_ tool for data science in many companies and research institutions around the world.
-
-Pandas is also a general library. You'll find Pandas at various financial institutions, research institutions, classrooms, etc. To meet the needs of these many different domains, the core Pandas development team has worked hard to keep the API fairly general.
-
-Thus, Pandas does not (and should not) provide domain-specific functionality. I would wager that the core Pandas team has turned away many contributions from people who trieds to add functions for their special use-case. While these types of additions are great to see, they don't belong in the core Pandas API.
-
-_So, where do my domain-specific additions belong?_ 
-
-They belong in a **Pandas extension**. An extension is a separate piece of Python code, maybe an object or function, that _automatically_ hooks into the Pandas API when imported. 
-
-Let's imagine, for example, you're a financial consultant, and you've developed a nice set of functions to analyze financial data into a Pandas DataFrame. This is a lot of work. You wrote your own  `read_portfolio` and `to_portfolio` functions to read/write your data, following Pandas' API design. You have code that sets each column to the correct data-type. You've formatted the date-time columns appropriately (I always have to look this up!). You have functions that slice out the capital gains for your clients. Maybe you even wrote some handy Matplotlib code to visualize your clients portfolio in a simple way.  
-
-_How do you share this code with others?_ Clearly, this does not belong in the core Pandas library. A "finance DataFrame" only serves a small subset of Pandas users. However, your code follows Pandas' API design and directly affects Pandas' core objects. You want your users to treat this code like its "Pandas for finance" (or whatever domain you're in). 
-
-That's when you should write a pandas extension. Here's what your Pandas extension might look like:
-
-```python
-import pandas                      					# Import pandas
-import pandas_finance             					# Import your extension
-
-df = pandas.DataFrame({            					# Create a DataFrame
-    "value": [5, -5, 45, 65, 30]
-    "gain_or_loss": [5, -10, 50, 20, -35]
-})
-
-# Get rows with negative numbers in 
-# "gain_or_loss" column.
-df.finance.get_losses()          					# That dataframe has a `finance` accessor.
-```
-
-By simply importing `pandas_finance` in the example above, the `pandas.DataFrame` has a `finance`  attribute (also called an "accessor") and an extra method, `get_losses`. The user acts directly on their DataFrame. They can all the "finance" attribute, hit _tab_, and see all the special functions you've added. 
-
-Pandas extensions are meant to "feel" like Pandas code, even if they don't come from the core Pandas library. They live as separate Python packages that users can install and import. When they are imported, they automatically "patch" their custom functionality onto Pandas' objects.
-
-There are many Pandas extensions that exist today. Here is a non-exhaustive list in case you're interested:
-
-* [GeoPandas](http://geopandas.org/): Pandas for geographic data and information.
-* [PhyloPandas](https://github.com/Zsailer/phylopandas): the Pandas DataFrame for phylogenetics.
-* [Pdvega](https://altair-viz.github.io/pdvega/#): Vega-lite plots from Pandas DataFrames.
-* [pyjanitor](https://github.com/ericmjl/pyjanitor): data "cleaning" API for Pandas DataFrames.
-* [Pandas' `plot` API](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.plot.html): yes, this is part of Pandas' core library, but acts like an extension.
-
-## How to write a Pandas Extension.
-
-I recommend you use the Python library, [Pandas-flavor](https://github.com/Zsailer/pandas_flavor); I'll explain why in a minute. (Full disclosure: I am the original creator of this library.)
-
-First, Pandas v0.24 introduced a new, simpler API for creating Pandas extensions. Essentially, it covered the boilerplate code for attaching extensions under the hood. It included two Python decorators: `register_dataframe_accessor` and `register_series_accessor`. Let me break down these magical functions. 
-
-I'll start by showing an example. Let's create the "finance" extension from before. Put the following code inside a `pandas_finances.py` file:
-```python
-# Import pandas's extension API
-from pandas.api.extensions import register_dataframe_accessor
+# pandas_finance.py module
+from pandas_flavor import register_dataframe_accessor
 
 @register_dataframe_accessor("finance")
 class FinanceAccessor:
@@ -81,50 +40,81 @@ class FinanceAccessor:
         losses = df[df["gains_and_losses"] < 0]
         return losses
 ```
-This 
+Here's what it would look like to use this accessor:
 ```python
+# Import the pandas_finance module above
 import pandas
 import pandas_finance
-
+ 
 df = pandas.DataFrame({
-    "value": [5, -5, 45, 65, 30]
-    "gain_or_loss": [5, -10, 50, 20, -35]
+    "value": [5, -5, 45, 65, 30],
+    "gains_and_losses": [5, -10, 50, 20, -35]
 })
 
 df.finance.get_losses()
 ```
-
-
-* The "`register`" part acknowledges that these functions "monkey-patch" or add functionality to Pandas DataFrame or Series objects after Pandas has been imported.  
-* An "`accessor`" is an object that attaches to a Pandas object that can access and "mutate" (i.e. change) the object. In the example above, the `finance` attribute is an accessor.
-
-As an example, let's create the finance extension above using  `register_dataframe_accessor`. We'll put this code inside a file named `pandas_finances.py`.
-
-
-When we import `pandas_finances` (like in the example before), a `finance` accessor will appear on all Pandas DataFrames in this session.
-
-To write such an extension, you'll need:
-
-1. To give the accessor a name, i.e. the DataFrame's attribute you'll call. You'll pass this name as an argument to the `register_dataframe_accessor`.
-2. To create an accessor class, a Python object. Name it whatever you like. It must have an `__init__` method whose only argument is the Pandas DataFrame (or Series, if using `register_series_accessor`). 
-3. To store the Pandas object as a hidden attribute on the Accessor (prefix the attribute with an underscore); I suggest `self._df`.
-4. To add your methods and attributes as members of the Accessor class. You can access and mutate the dataframe by affecting the `self._df` attribute.
-
-That's it! You can start writing your own **Pandas extension** today!
-
-## Extending Pandas with Pandas-flavor
-
-As I mentioned, Pandas added this extension API in v0.24, which means this won't work with earlier versions of Pandas. That's one reason why I wrote [Pandas-flavor](https://github.com/Zsailer/pandas_flavor). 
-
-Pandas-flavor backports this extension API to earlier versions of Pandas. You can import the same decorators, `register_dataframe_accessors` and `register_series_accessors` and it will work with most versions of Pandas. Just replace the the import statements above:
-
-```python
-from pandas_flavor import register_dataframe_accessor
+```
+   value  gains_and_losses
+1     -5               -10
+4     30               -35
 ```
 
-Pandas-flavor also allows you to 
+## Custom Methods
+Besides this backport, Pandas-flavor adds another way to extend Pandas:
 
-[WIP]
+* `register_dataframe_method()` 
+* `register_series_method()`
 
+These two decorators allow you to register custom methods _directly_ onto Pandas' DataFrame/Series. We could adjust the example above to attach the "get_losses" method directly to the DataFrame.
+```python
+# pandas_finance.py module
+from pandas_flavor import register_dataframe_method
 
+@register_dataframe_method
+def get_losses(df):
+    # Slice out values less than 1.
+    losses = df[df["gains_and_losses"] < 0]
+    return losses
+```
+To use this method:
+```python
+# Import the pandas_finance module above
+import pandas
+import pandas_finance
 
+df = pandas.DataFrame({
+    "value": [5, -5, 45, 65, 30],
+    "gains_and_losses": [5, -10, 50, 20, -35]
+})
+
+df.get_losses()
+```
+```
+   value  gains_and_losses
+1     -5               -10
+4     30               -35
+```
+
+(_It is likely that Pandas deliberately chose not implement "method registration". If everyone starts monkeypatching DataFrames with custom methods, it could lead to confusion in the Pandas community. The preferred Pandas approach is to namespace your methods by registering an accessor that contains your custom methods._)
+
+## Installing Pandas-flavor
+
+Try out Pandas-flavor and let me know what you think! 
+
+You can install Pandas-flavor with `pip`:
+```
+pip install pandas-flavor
+```
+or `conda`:
+```
+conda install -c conda-forge pandas-flavor
+```
+
+## Extensions in the wild
+Here is a non-exhaustive list of libraries that use Pandas' (and Pandas-flavor's) new extension API:
+
+* [GeoPandas](http://geopandas.org/): Pandas for geographic data and information.
+* [PhyloPandas](https://github.com/Zsailer/phylopandas): the Pandas DataFrame for phylogenetics.
+* [Pdvega](https://altair-viz.github.io/pdvega/#): Vega-lite plots from Pandas DataFrames.
+* [pyjanitor](https://github.com/ericmjl/pyjanitor): data "cleaning" API for Pandas DataFrames.
+* [Pandas' plot API](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.plot.html): yes, this is part of Pandas' core library, but acts like an extension.
