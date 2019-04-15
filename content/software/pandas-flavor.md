@@ -117,4 +117,5 @@ Here is a non-exhaustive list of libraries that use Pandas' (and Pandas-flavor's
 * [PhyloPandas](https://github.com/Zsailer/phylopandas): the Pandas DataFrame for phylogenetics.
 * [Pdvega](https://altair-viz.github.io/pdvega/#): Vega-lite plots from Pandas DataFrames.
 * [pyjanitor](https://github.com/ericmjl/pyjanitor): data "cleaning" API for Pandas DataFrames.
+* [python-ctd](https://github.com/pyoceans/python-ctd): tools to load hydrographic data into Pandas DataFrames.
 * [Pandas' plot API](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.plot.html): yes, this is part of Pandas' core library, but acts like an extension.
