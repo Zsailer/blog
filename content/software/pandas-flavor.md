@@ -2,7 +2,7 @@
 title: "Writing your own flavor of Pandas"
 date: 2019-04-14
 authors: ["zsailer"]
-tags: ["pandas", "software"]
+tags: ["pandas", "software", "python"]
 ---
 
 Pandas is Python's DataFrame library. There are many reasons why should be using DataFrame's in your data science workflow, but I'll have to leave that for another post. Here, I'll show you how to tailor Pandas to your business, research, or personal workflow using Pandas' extension API.
