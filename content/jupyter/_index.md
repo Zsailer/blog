@@ -1,7 +1,6 @@
 ---
 title: Jupyter
 menu:
-  - main
   - sidebar
 weight: -270
 resources:
