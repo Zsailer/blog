@@ -1,7 +1,6 @@
 ---
 title: '"Not writing" is still writing.'
 date: 2019-05-09T14:59:21-07:00
-draft: true
 authors: ["zsailer"]
 tags: ["writing"]
 images:
