@@ -5,6 +5,9 @@ menu:
   - sidebar
 weight: -270
 ---
-> "Everyone's perspective is a sample size of one. I think it's important to remember that. Here, I share my thoughts on science, statistics, open-source, jupyter, and more. They may be right; they may be wrong.
+
+> Here, I share my thoughts on science, statistics, open-source, and more. I'm just a single data point—a sample size of one—so don't take these thoughts too seriously...I'm still gathering more data.
 >
-> Either way, I hope you find them useful." —Zach
+> In the meantime, I hope you find this blog useful. 
+> 
+> —Zach
