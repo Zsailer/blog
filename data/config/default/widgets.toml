@@ -1,6 +1,6 @@
 [about]
 title = "Zach Sailer"
-description = "open-source developer"
+description = """open-source developer<br/>at Project Jupyter"""
 logo = "/images/headshot.png"
 
 [breadcrumbs]
