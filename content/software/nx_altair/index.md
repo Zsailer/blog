@@ -1,7 +1,7 @@
 ---
 title: "NetworkX meets Altair"
-date: 2019-05-02
-draft: true
+date: 2019-05-31
+draft: false
 authors: ["zsailer"]
 tags: ["jupyter"]
 images:
