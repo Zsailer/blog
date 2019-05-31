@@ -5,7 +5,7 @@ draft: false
 authors: ["zsailer"]
 tags: ["software", "pandas", "networkx", "altair"]
 images:
-- /path/to/picture
+- /software/nx_altair/data/networkx-mpl.png
 ---
 
 **NxAltair** is a small library I created last year to draw NetworkX graphs in Altair. [Altair](https://altair-viz.github.io/) is a declarative Python API for creating interactive visualizations powered by Vega. [NetworkX](https://networkx.github.io/) is a broadly used library for analyzing network data. 
