@@ -3,7 +3,7 @@ title: "NetworkX meets Altair"
 date: 2019-05-31
 draft: false
 authors: ["zsailer"]
-tags: ["jupyter"]
+tags: ["software", "pandas", "networkx", "altair"]
 images:
 - /path/to/picture
 ---
