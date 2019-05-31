@@ -1,7 +1,7 @@
 ---
 title: "NetworkX meets Altair"
 date: 2019-05-31
-draft: false
+draft: true
 authors: ["zsailer"]
 tags: ["software", "pandas", "networkx", "altair"]
 images:
